@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// These videos take long to make so I hope this helps you out and if you want to help me out you can by leaving a like and subscribe, thanks!
-
 public class Movement : MonoBehaviour
 {
     [SerializeField] Transform playerCamera;
@@ -68,11 +66,14 @@ public class Movement : MonoBehaviour
         Vector2 targetDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         targetDir.Normalize();
 
+        // Check if sprinting
+        float currentSpeed = Input.GetKey(KeyCode.LeftShift) ? Speed * 2f : Speed;
+
         currentDir = Vector2.SmoothDamp(currentDir, targetDir, ref currentDirVelocity, moveSmoothTime);
 
         velocityY += gravity * 2f * Time.deltaTime;
 
-        Vector3 velocity = (transform.forward * currentDir.y + transform.right * currentDir.x) * Speed + Vector3.up * velocityY;
+        Vector3 velocity = (transform.forward * currentDir.y + transform.right * currentDir.x) * currentSpeed + Vector3.up * velocityY;
 
         controller.Move(velocity * Time.deltaTime);
 
@@ -81,7 +82,7 @@ public class Movement : MonoBehaviour
             velocityY = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 
-        if (isGrounded! && controller.velocity.y < -1f)
+        if (isGrounded && controller.velocity.y < -1f)
         {
             velocityY = -8f;
         }
