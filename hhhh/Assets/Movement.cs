@@ -67,7 +67,7 @@ public class Movement : MonoBehaviour
         targetDir.Normalize();
 
         // Check if sprinting
-        float currentSpeed = Input.GetKey(KeyCode.LeftShift) ? Speed * 2f : Speed;
+        float currentSpeed = Input.GetKey(KeyCode.LeftShift) ? Speed * 1.5f : Speed;
 
         currentDir = Vector2.SmoothDamp(currentDir, targetDir, ref currentDirVelocity, moveSmoothTime);
 
