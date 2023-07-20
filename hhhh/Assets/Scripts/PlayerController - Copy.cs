@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace EvolveGames
 {
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
+
+        public Slider CooldownSlider;
+        float cooldownStartTime;
 
         bool isCooldownActive = false;
         bool isShiftPressed = false;
@@ -83,12 +87,71 @@ namespace EvolveGames
             RunningValue = RuningSpeed;
             installGravity = gravity;
             WalkingValue = walkingSpeed;
+
+            CooldownSlider.value = 1f;
+            CooldownSlider.minValue = 0f; // Set the minimum value of the slider to 0
+            CooldownSlider.maxValue = 1f; // Set the maximum value of the slider to 1
+
         }
 
         void Update()
         {
             RaycastHit CroughCheck;
             RaycastHit ObjectCheck;
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                if (!isShiftPressed)
+                {
+                    // The player just started sprinting
+                    isShiftPressed = true;
+                    shiftPressTime = Time.time;
+                    isCooldownActive = false; // Reset cooldown when sprinting starts
+                    CooldownSlider.value = 1f; // Reset slider value to 1 when sprinting starts
+                }
+
+                // Check if the sprint time threshold is reached
+                if (!isCooldownActive && Time.time - shiftPressTime >= sprintDuration)
+                {
+                    // Start the cooldown and stop the character controller movement
+                    isCooldownActive = true;
+                    cooldownStartTime = Time.time; // Record the start time of the cooldown
+                    cooldownAudioSource.Play();
+                    StartCoroutine(StopMovementCoroutine());
+                }
+            }
+            else
+            {
+                // The player released left shift, reset the flags
+                isShiftPressed = false;
+            }
+
+            // Update the UI Slider value
+            if (isShiftPressed && !isCooldownActive)
+            {
+                float elapsedTime = Time.time - shiftPressTime;
+                float sliderValue = 1f - (elapsedTime / sprintDuration); // Calculate the slider value while sprinting
+                CooldownSlider.value = Mathf.Clamp01(sliderValue); // Clamp the slider value between 0 and 1
+            }
+            else if (isCooldownActive)
+            {
+                float elapsedCooldownTime = Time.time - cooldownStartTime;
+                float sliderValue = elapsedCooldownTime / cooldownDuration; // Calculate the slider value during cooldown
+                CooldownSlider.value = Mathf.Clamp01(sliderValue); // Clamp the slider value between 0 and 1
+
+                // Check if the cooldown is over, then reset the cooldown flag and slider value
+                if (elapsedCooldownTime >= cooldownDuration)
+                {
+                    isCooldownActive = false;
+                    CooldownSlider.value = 1f;
+                }
+            }
+            else
+            {
+                // Reset the slider value when cooldown is active or player is not sprinting
+                CooldownSlider.value = 1f;
+            }
+
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
