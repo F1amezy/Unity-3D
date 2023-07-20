@@ -1,5 +1,4 @@
-﻿//by EvolveGames
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +7,15 @@ namespace EvolveGames
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
+
+        bool isCooldownActive = false;
+        bool isShiftPressed = false;
+        float shiftPressTime = 0f;
+        public float sprintDuration = 10f;
+        public float cooldownDuration = 10f;
+
+        public AudioSource cooldownAudioSource;
+
         [Header("PlayerController")]
         [SerializeField] public Transform Camera;
         [SerializeField] public ItemChange Items;
@@ -81,6 +89,30 @@ namespace EvolveGames
         {
             RaycastHit CroughCheck;
             RaycastHit ObjectCheck;
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                if (!isShiftPressed)
+                {
+                    // The player just pressed shift, start the timer
+                    isShiftPressed = true;
+                    shiftPressTime = Time.time;
+                }
+
+                // Check if the sprint time threshold is reached
+                if (!isCooldownActive && Time.time - shiftPressTime >= sprintDuration)
+                {
+                    // Start the cooldown and stop the character controller movement
+                    isCooldownActive = true;
+                    cooldownAudioSource.Play();
+                    StartCoroutine(StopMovementCoroutine());
+                }
+            }
+            else
+            {
+                // The player released left shift, reset the flags
+                isShiftPressed = false;
+            }
 
             if (!characterController.isGrounded && !isClimbing)
             {
@@ -176,6 +208,13 @@ namespace EvolveGames
                 Items.Hide(false);
             }
         }
-
+        private System.Collections.IEnumerator StopMovementCoroutine()
+        {
+            canMove = false;
+            characterController.Move(Vector3.zero); // Stop the player's movement
+            yield return new WaitForSeconds(cooldownDuration);
+            canMove = true;
+            isCooldownActive = false;
+        }
     }
 }
