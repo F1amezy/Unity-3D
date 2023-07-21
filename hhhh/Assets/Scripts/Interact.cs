@@ -8,6 +8,12 @@ public class Interact : MonoBehaviour
 
     private bool isObjectActive = true;
 
+    void Start()
+    {
+        // Ensure that the target object starts in the desired active state
+        targetObject.SetActive(isObjectActive);
+    }
+
     void Update()
     {
         // Calculate the distance between the player and the target object

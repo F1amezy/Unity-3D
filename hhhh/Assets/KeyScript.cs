@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NoteScript : MonoBehaviour
+public class KeyScript : MonoBehaviour
 {
     public float interactionRange = 3f; // The range within which the player can interact with objects
     public Text counterText; // Reference to the UI Text component that displays the counter
@@ -28,7 +28,7 @@ public class NoteScript : MonoBehaviour
             GameObject interactedObject = collider.gameObject;
 
             // Check if the interacted object is selectable and currently active
-            if (interactedObject.activeInHierarchy && interactedObject.CompareTag("Note"))
+            if (interactedObject.activeInHierarchy && interactedObject.CompareTag("Key"))
             {
                 // Disable the object and increase the counter
                 interactedObject.SetActive(false);
