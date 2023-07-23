@@ -9725,7 +9725,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &515503435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47107,14 +47107,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1540855050}
-  m_LocalRotation: {x: 0.0062358542, y: -0.80378956, z: -0.004614989, w: -0.59486324}
-  m_LocalPosition: {x: -67.05252, y: -23.292519, z: 123.05977}
-  m_LocalScale: {x: 0.9358552, y: 10.252795, z: 0.54843235}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.031, y: 1.46, z: 0.23}
+  m_LocalScale: {x: 1.9015552, y: 0.0971, z: 0.9908}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 515503439}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: -244.677, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1540855052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47131,8 +47131,8 @@ MonoBehaviour:
   cam: {fileID: 151617531429236273}
   PlayerController: {fileID: 151617530041010825}
   ImagePrefab: {fileID: 5311345518241477974, guid: 3c4727ed1d6b2b344be986ebefa94a43, type: 3}
-  MaxViewRange: 3
-  MaxTextViewRange: 2
+  MaxViewRange: 5
+  MaxTextViewRange: 3
 --- !u!1 &1543700144 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 0048762763ee8b744bed7f31839ac062, type: 3}
