@@ -9,6 +9,7 @@ TagManager:
   - Selectable
   - Note
   - Key
+  - Stone
   layers:
   - Default
   - TransparentFX
