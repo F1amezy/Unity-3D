@@ -10,6 +10,7 @@ TagManager:
   - Note
   - Key
   - Stone
+  - Selectable Layer
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - UI
   - whatisGround
   - PostProcessing
-  - 
+  - DisableOnFlashlight
   - 
   - 
   - 
